@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roomwork Shopping Concierge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary">
+      <div class="brand">
+        <div class="brand-mark">R</div>
+        <div>
+          <strong>Roomwork</strong>
+          <span>Shopping Concierge</span>
+        </div>
+      </div>
+
+      <nav class="nav-list" aria-label="App sections">
+        <button class="nav-item active" data-view="request" type="button">
+          <span class="icon">+</span>
+          Request
+        </button>
+        <button class="nav-item" data-view="matches" type="button">
+          <span class="icon">◇</span>
+          Matches
+        </button>
+        <button class="nav-item" data-view="orders" type="button">
+          <span class="icon">✓</span>
+          Orders
+        </button>
+        <button class="nav-item" data-view="shoppers" type="button">
+          <span class="icon">$</span>
+          Shoppers
+        </button>
+        <button class="nav-item admin-nav" data-view="admin" type="button">
+          <span class="icon">⚙</span>
+          Admin
+        </button>
+      </nav>
+
+      <div class="sidebar-panel">
+        <span class="panel-label">Live concept</span>
+        <strong>Uber-style matching for shopping help</strong>
+        <p>Clients request help. Verified shoppers accept, shop, deliver, and earn.</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Personal shopping made operational</p>
+          <h1>Find it, buy it, deliver it without the errand spiral.</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-button" type="button" id="adminAccess">Admin access</button>
+          <button class="ghost-button" type="button" id="businessMode">Business</button>
+          <button class="primary-button" type="button" id="newRequest">New request</button>
+        </div>
+      </header>
+
+      <section class="summary-grid" aria-label="Service summary">
+        <article class="metric">
+          <span>Open Requests</span>
+          <strong id="openRequests">12</strong>
+          <small>4 urgent today</small>
+        </article>
+        <article class="metric">
+          <span>Avg. Match Time</span>
+          <strong>7 min</strong>
+          <small>Verified local shoppers</small>
+        </article>
+        <article class="metric">
+          <span>Delivered This Week</span>
+          <strong>86</strong>
+          <small>Fashion, gifts, events</small>
+        </article>
+      </section>
+
+      <section class="view active" id="request">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Customer request</p>
+            <h2>Tell Roomwork what you need.</h2>
+          </div>
+          <span class="status-pill">Concierge intake</span>
+        </div>
+
+        <div class="request-layout">
+          <form class="request-form" id="requestForm">
+            <label>
+              Shopping category
+              <select id="category" required>
+                <option>Fashion and accessories</option>
+                <option>Gifts and special occasions</option>
+                <option>Business supplies</option>
+                <option>Home and lifestyle</option>
+                <option>Special request</option>
+              </select>
+            </label>
+
+            <label>
+              What should your shopper find?
+              <textarea id="requestDetails" rows="5" required>Find a polished birthday gift for a client who likes travel, coffee, and minimal design. Budget under $150.</textarea>
+            </label>
+
+            <div class="form-row">
+              <label>
+                Budget
+                <input id="budget" type="number" min="20" value="150">
+              </label>
+              <label>
+                Needed by
+                <input id="deadline" type="datetime-local">
+              </label>
+            </div>
+
+            <div class="delivery-options" aria-label="Delivery speed">
+              <button class="option active" type="button" data-speed="Same day">Same day</button>
+              <button class="option" type="button" data-speed="Next day">Next day</button>
+              <button class="option" type="button" data-speed="Curated list">Curated list</button>
+            </div>
+
+            <button class="primary-button wide" type="submit">Find a verified shopper</button>
+          </form>
+
+          <aside class="concierge-card">
+            <div class="concierge-photo" role="img" aria-label="Personal shopper preparing curated items"></div>
+            <div>
+              <p class="eyebrow">Suggested service</p>
+              <h3 id="serviceTitle">Gift sourcing plus delivery</h3>
+              <p id="serviceCopy">A concierge will compare options, confirm the purchase, and coordinate delivery updates in one tracked request.</p>
+            </div>
+            <div class="quote-box">
+              <span>Estimated concierge fee</span>
+              <strong id="feeEstimate">$24-$38</strong>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="matches">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Verified network</p>
+            <h2>Available personal shoppers near you.</h2>
+          </div>
+          <span class="status-pill">3 strong matches</span>
+        </div>
+        <div class="shopper-grid" id="shopperGrid"></div>
+      </section>
+
+      <section class="view" id="orders">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Track fulfillment</p>
+            <h2>From request to doorstep.</h2>
+          </div>
+          <span class="status-pill">Live tracking</span>
+        </div>
+        <div class="timeline">
+          <div class="timeline-step done">
+            <span></span>
+            <div><strong>Request received</strong><p>Roomwork captured the budget, delivery preference, and product brief.</p></div>
+          </div>
+          <div class="timeline-step done">
+            <span></span>
+            <div><strong>Shopper matched</strong><p>Verified shopper accepted the request and started sourcing.</p></div>
+          </div>
+          <div class="timeline-step active">
+            <span></span>
+            <div><strong>Options ready</strong><p>Three curated choices are ready for client approval.</p></div>
+          </div>
+          <div class="timeline-step">
+            <span></span>
+            <div><strong>Purchase and delivery</strong><p>Shopper buys the approved item and shares arrival updates.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="shoppers">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Earn with Roomwork</p>
+            <h2>Shopper workspace.</h2>
+          </div>
+          <span class="status-pill">Income opportunities</span>
+        </div>
+        <div class="earning-board">
+          <article>
+            <span>Today's available jobs</span>
+            <strong>18</strong>
+            <p>Fashion pickups, corporate gifts, specialty sourcing, and delivery runs.</p>
+          </article>
+          <article>
+            <span>Projected earnings</span>
+            <strong>$142</strong>
+            <p>Based on accepting four nearby requests with same-day windows.</p>
+          </article>
+          <article>
+            <span>Trust score</span>
+            <strong>98%</strong>
+            <p>Verified identity, client reviews, delivery reliability, and product accuracy.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="admin">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Administrator</p>
+            <h2>Roomwork operations control.</h2>
+          </div>
+          <span class="status-pill" id="adminStatus">Admin unlocked</span>
+        </div>
+
+        <div class="admin-layout">
+          <section class="admin-panel">
+            <div class="admin-panel-head">
+              <div>
+                <p class="eyebrow">Queue</p>
+                <h3>Incoming requests</h3>
+              </div>
+              <button class="ghost-button" type="button" id="approveAll">Approve all</button>
+            </div>
+            <div class="admin-table" role="table" aria-label="Incoming requests">
+              <div role="row" class="table-row table-head">
+                <span>Client</span><span>Need</span><span>Status</span><span>Action</span>
+              </div>
+              <div role="row" class="table-row">
+                <span>Brightside Studio</span><span>Client gifts</span><span class="admin-badge pending">Pending</span><button type="button">Assign</button>
+              </div>
+              <div role="row" class="table-row">
+                <span>J. Miller</span><span>Event outfit</span><span class="admin-badge active">Matched</span><button type="button">Track</button>
+              </div>
+              <div role="row" class="table-row">
+                <span>Northline Co.</span><span>Office supplies</span><span class="admin-badge review">Review</span><button type="button">Approve</button>
+              </div>
+            </div>
+          </section>
+
+          <aside class="admin-panel">
+            <p class="eyebrow">Platform health</p>
+            <div class="admin-stats">
+              <div><span>Verified shoppers</span><strong>42</strong></div>
+              <div><span>Requests today</span><strong>29</strong></div>
+              <div><span>Resolution rate</span><strong>96%</strong></div>
+            </div>
+            <label class="admin-toggle">
+              <input type="checkbox" id="autoMatch" checked>
+              Auto-match verified shoppers
+            </label>
+            <label class="admin-toggle">
+              <input type="checkbox" checked>
+              Require purchase approval
+            </label>
+            <label class="admin-toggle">
+              <input type="checkbox">
+              Pause new shopper onboarding
+            </label>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
